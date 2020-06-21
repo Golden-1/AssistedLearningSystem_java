@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.CalendarMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.Calendar" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="sum_sign_in_num" property="sumSignInNum" jdbcType="INTEGER" />
+    <result column="max_sign_in_num" property="maxSignInNum" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="golden.model.Calendar" extends="BaseResultMap" >
+    <result column="calendarcol" property="calendarcol" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, student_id, sum_sign_in_num, max_sign_in_num, num
+  </sql>
+  <sql id="Blob_Column_List" >
+    calendarcol
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from calendar
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+    <select id="selectby_studentid" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    id, student_id, sum_sign_in_num, max_sign_in_num, num,calendarcol
+    from calendar
+    where student_id = #{student_id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from calendar
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="golden.model.Calendar" >
+    insert into calendar (id, student_id, sum_sign_in_num, 
+      max_sign_in_num, num, calendarcol
+      )
+    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{sumSignInNum,jdbcType=INTEGER}, 
+      #{maxSignInNum,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{calendarcol,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="golden.model.Calendar" >
+    insert into calendar
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="sumSignInNum != null" >
+        sum_sign_in_num,
+      </if>
+      <if test="maxSignInNum != null" >
+        max_sign_in_num,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="calendarcol != null" >
+        calendarcol,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="sumSignInNum != null" >
+        #{sumSignInNum,jdbcType=INTEGER},
+      </if>
+      <if test="maxSignInNum != null" >
+        #{maxSignInNum,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="calendarcol != null" >
+        #{calendarcol,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.Calendar" >
+    update calendar
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="sumSignInNum != null" >
+        sum_sign_in_num = #{sumSignInNum,jdbcType=INTEGER},
+      </if>
+      <if test="maxSignInNum != null" >
+        max_sign_in_num = #{maxSignInNum,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="calendarcol != null" >
+        calendarcol = #{calendarcol,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="golden.model.Calendar" >
+    update calendar
+    set student_id = #{studentId,jdbcType=INTEGER},
+      sum_sign_in_num = #{sumSignInNum,jdbcType=INTEGER},
+      max_sign_in_num = #{maxSignInNum,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      calendarcol = #{calendarcol,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.Calendar" >
+    update calendar
+    set student_id = #{studentId,jdbcType=INTEGER},
+      sum_sign_in_num = #{sumSignInNum,jdbcType=INTEGER},
+      max_sign_in_num = #{maxSignInNum,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

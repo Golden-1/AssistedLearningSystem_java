@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.WordListMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.WordList" >
+    <id column="word_id" property="wordId" jdbcType="INTEGER" />
+    <result column="sentence" property="sentence" jdbcType="OTHER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="golden.model.WordListWithBLOBs" extends="BaseResultMap" >
+    <result column="Indonesian" property="indonesian" jdbcType="LONGVARCHAR" />
+    <result column="audio" property="audio" jdbcType="LONGVARCHAR" />
+    <result column="Chinese" property="chinese" jdbcType="LONGVARCHAR" />
+    <result column="nature" property="nature" jdbcType="LONGVARCHAR" />
+    <result column="antonym" property="antonym" jdbcType="LONGVARCHAR" />
+    <result column="homoionym" property="homoionym" jdbcType="LONGVARCHAR" />
+    <result column="used_phrases" property="usedPhrases" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  
+      <!-- 只返回返回特定属性对象时，重新定义一个resultmap，并且创建一个对应实体类，属性列表可有可无 -->
+  <resultMap id="ResultMap_wordlist" type="golden.tempmodel.word_list" extends="BaseResultMap">
+    <id column="word_id" property="wordId" jdbcType="INTEGER" />
+    <result column="Indonesian" property="indonesian" jdbcType="LONGVARCHAR" />
+    <result column="Chinese" property="chinese" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    word_id, sentence
+  </sql>
+  <sql id="Blob_Column_List" >
+    Indonesian, audio, Chinese, nature, antonym, homoionym, used_phrases
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+        word_id, sentence ,Indonesian,audio,Chinese,nature,antonym,homoionym,used_phrases
+    from word_list
+    where word_id = #{word_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByWord" resultMap="ResultMap_wordlist" parameterType="string" >
+    select 
+    word_id,Indonesian,Chinese
+    from word_list
+    where Indonesian LIKE '%' #{word} '%' 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from word_list
+    where word_id = #{wordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.WordListWithBLOBs" >
+    insert into word_list (word_id, sentence, Indonesian, 
+      audio, Chinese, nature, 
+      antonym, homoionym, used_phrases
+      )
+    values (#{wordId,jdbcType=INTEGER}, #{sentence,jdbcType=OTHER}, #{indonesian,jdbcType=LONGVARCHAR}, 
+      #{audio,jdbcType=LONGVARCHAR}, #{chinese,jdbcType=LONGVARCHAR}, #{nature,jdbcType=LONGVARCHAR}, 
+      #{antonym,jdbcType=LONGVARCHAR}, #{homoionym,jdbcType=LONGVARCHAR}, #{usedPhrases,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.WordListWithBLOBs" >
+    insert into word_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wordId != null" >
+        word_id,
+      </if>
+      <if test="sentence != null" >
+        sentence,
+      </if>
+      <if test="indonesian != null" >
+        Indonesian,
+      </if>
+      <if test="audio != null" >
+        audio,
+      </if>
+      <if test="chinese != null" >
+        Chinese,
+      </if>
+      <if test="nature != null" >
+        nature,
+      </if>
+      <if test="antonym != null" >
+        antonym,
+      </if>
+      <if test="homoionym != null" >
+        homoionym,
+      </if>
+      <if test="usedPhrases != null" >
+        used_phrases,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wordId != null" >
+        #{wordId,jdbcType=INTEGER},
+      </if>
+      <if test="sentence != null" >
+        #{sentence,jdbcType=OTHER},
+      </if>
+      <if test="indonesian != null" >
+        #{indonesian,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="audio != null" >
+        #{audio,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chinese != null" >
+        #{chinese,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="nature != null" >
+        #{nature,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="antonym != null" >
+        #{antonym,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="homoionym != null" >
+        #{homoionym,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="usedPhrases != null" >
+        #{usedPhrases,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.WordListWithBLOBs" >
+    update word_list
+    <set >
+      <if test="sentence != null" >
+        sentence = #{sentence,jdbcType=OTHER},
+      </if>
+      <if test="indonesian != null" >
+        Indonesian = #{indonesian,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="audio != null" >
+        audio = #{audio,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chinese != null" >
+        Chinese = #{chinese,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="nature != null" >
+        nature = #{nature,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="antonym != null" >
+        antonym = #{antonym,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="homoionym != null" >
+        homoionym = #{homoionym,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="usedPhrases != null" >
+        used_phrases = #{usedPhrases,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where word_id = #{wordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="golden.model.WordListWithBLOBs" >
+    update word_list
+    set sentence = #{sentence,jdbcType=OTHER},
+      Indonesian = #{indonesian,jdbcType=LONGVARCHAR},
+      audio = #{audio,jdbcType=LONGVARCHAR},
+      Chinese = #{chinese,jdbcType=LONGVARCHAR},
+      nature = #{nature,jdbcType=LONGVARCHAR},
+      antonym = #{antonym,jdbcType=LONGVARCHAR},
+      homoionym = #{homoionym,jdbcType=LONGVARCHAR},
+      used_phrases = #{usedPhrases,jdbcType=LONGVARCHAR}
+    where word_id = #{wordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.WordList" >
+    update word_list
+    set sentence = #{sentence,jdbcType=OTHER}
+    where word_id = #{wordId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<!-- 注意：指定mysql的驱动包的路径，别放中文路径下 -->
+	<classPathEntry location="E:\eclipse\mysql-connector-java-5.1.49.jar" />
+	
+	<!-- 配置数据源和生成的代码所存放的位置 -->
+	<context id="context1">
+		<commentGenerator>
+			<!-- 去除自动生成的注释 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		
+		
+		
+		<!-- 注意：配置数据源 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://129.204.22.24:3306/AssistedLearningSystem" userId="root"
+			password="lym123" />
+			<!-- 搭上云服务器时记得修改数据库名为pratice -->
+		<!-- 所生成的实体类的位置.默认在资源包src中。 -->
+		<!-- 注意：指定包名和项目名 -->
+		<javaModelGenerator targetPackage="golden.model"
+			targetProject="AssistedLearningSystem" />
+			
+		<!-- 所生成的映射文件的位置。默认资源包src中 -->
+		<!-- 注意：指定包名和项目名 -->
+		<sqlMapGenerator targetPackage="golden.mapper"
+			targetProject="AssistedLearningSystem" />
+
+		<!-- 注意：指定为哪些表生成实体类和映射文件。 tableName:表名  -->
+		<table schema="" tableName="collection" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+<!-- 		<table schema="" tableName="has_read_words" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		<table schema="" tableName="word_list" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+		</table> -->
+	</context>
+</generatorConfiguration>

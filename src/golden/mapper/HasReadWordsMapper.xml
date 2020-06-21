@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.HasReadWordsMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.HasReadWords" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="golden.model.HasReadWordsWithBLOBs" extends="BaseResultMap" >
+    <result column="words" property="words" jdbcType="LONGVARCHAR" />
+    <result column="read_word_list" property="readWordList" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, student_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    words, read_word_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from has_read_words
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectby_studentid" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    words, read_word_list
+    from has_read_words
+    where student_id = #{student_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from has_read_words
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.HasReadWordsWithBLOBs" >
+    insert into has_read_words (id, student_id, words, 
+      read_word_list)
+    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=VARCHAR}, #{words,jdbcType=LONGVARCHAR}, 
+      #{readWordList,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.HasReadWordsWithBLOBs" >
+    insert into has_read_words
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="words != null" >
+        words,
+      </if>
+      <if test="readWordList != null" >
+        read_word_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="words != null" >
+        #{words,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="readWordList != null" >
+        #{readWordList,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.HasReadWordsWithBLOBs" >
+    update has_read_words
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="words != null" >
+        words = #{words,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="readWordList != null" >
+        read_word_list = #{readWordList,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="golden.model.HasReadWordsWithBLOBs" >
+    update has_read_words
+    set student_id = #{studentId,jdbcType=VARCHAR},
+      words = #{words,jdbcType=LONGVARCHAR},
+      read_word_list = #{readWordList,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.HasReadWords" >
+    update has_read_words
+    set student_id = #{studentId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

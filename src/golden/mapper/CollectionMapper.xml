@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="golden.mapper.CollectionMapper" >
+  <resultMap id="BaseResultMap" type="golden.model.Collection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="words" property="words" jdbcType="VARCHAR" />
+    <result column="article" property="article" jdbcType="VARCHAR" />
+    <result column="vedio" property="vedio" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ExtendResultMap" type="golden.tempmodel.collection_1" extends="BaseResultMap" >
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="words" property="words" jdbcType="VARCHAR" />
+    <result column="article" property="article" jdbcType="VARCHAR" />
+    <result column="vedio" property="vedio" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, student_id, words, article, vedio
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from collection
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectby_student_id" resultMap="ExtendResultMap" parameterType="java.lang.Integer" >
+    select 
+    student_id,words,article,vedio
+    from collection
+    where student_id = #{studentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from collection
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="golden.model.Collection" >
+    insert into collection (student_id, words, 
+      article, vedio)
+    values ( #{studentId,jdbcType=INTEGER}, #{words,jdbcType=VARCHAR}, 
+      #{article,jdbcType=VARCHAR}, #{vedio,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="golden.model.Collection" >
+    insert into collection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="words != null" >
+        words,
+      </if>
+      <if test="article != null" >
+        article,
+      </if>
+      <if test="vedio != null" >
+        vedio,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="words != null" >
+        #{words,jdbcType=VARCHAR},
+      </if>
+      <if test="article != null" >
+        #{article,jdbcType=VARCHAR},
+      </if>
+      <if test="vedio != null" >
+        #{vedio,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="golden.model.Collection" >
+    update collection
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="words != null" >
+        words = #{words,jdbcType=VARCHAR},
+      </if>
+      <if test="article != null" >
+        article = #{article,jdbcType=VARCHAR},
+      </if>
+      <if test="vedio != null" >
+        vedio = #{vedio,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="golden.model.Collection" >
+    update collection
+    set student_id = #{studentId,jdbcType=INTEGER},
+      words = #{words,jdbcType=VARCHAR},
+      article = #{article,jdbcType=VARCHAR},
+      vedio = #{vedio,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateby_studentid" parameterType="golden.model.Collection" >
+   insert into collection (student_id, words, article, vedio)
+    values ( #{studentId,jdbcType=INTEGER}, #{words,jdbcType=VARCHAR}, 
+      #{article,jdbcType=VARCHAR}, #{vedio,jdbcType=VARCHAR})
+      ON DUPLICATE KEY UPDATE
+      words= concat_ws(',',words,values(words)),
+      article=concat_ws(',',article,values(article)),
+      vedio=concat_ws(',',vedio,values(vedio))
+  </update>
+</mapper>
